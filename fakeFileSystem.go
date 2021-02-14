@@ -3,7 +3,6 @@
 package fs
 
 import (
-	"errors"
 	"fmt"
 	"os"
 	"sync"
@@ -64,7 +63,7 @@ func (fs *fakeFileSystem) ReadFile(path string) ([]byte, error) {
 	fs.Lock()
 	defer fs.Unlock()
 	if _, ok := fs.Fs[path]; !ok {
-		return []byte{}, errors.New(fmt.Sprintf("%s: File Not Found", path))
+		return []byte{}, os.ErrNotExist
 	}
 	return fs.Fs[path].Content, nil
 
@@ -74,7 +73,7 @@ func (fs *fakeFileSystem) Mkdir(path string, permissions os.FileMode) error {
 	fs.Lock()
 	defer fs.Unlock()
 	if _, ok := fs.Fs[path]; ok {
-		return errors.New(fmt.Sprintf("%s: File exists", path))
+		return os.ErrExist
 	}
 	fs.Fs[path] = &File{
 		path:    path,
