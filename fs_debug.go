@@ -10,6 +10,10 @@ func Mkdir(path string, permissions os.FileMode) error {
 	return Fs.Mkdir(SanitizePath(path), permissions)
 }
 
+func MkdirAll(path string, permissions os.FileMode) error {
+	return Fs.Mkdir(SanitizePath(path), permissions)
+}
+
 func Stat(path string) (os.FileInfo, error) {
 	return Fs.Stat(SanitizePath(path))
 }
